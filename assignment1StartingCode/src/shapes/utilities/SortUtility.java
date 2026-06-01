@@ -11,6 +11,10 @@ import java.util.Comparator;
 
 
 public class SortUtility {
+	public static void aiSort(Shape3D[] shapes, int count, Comparator<Shape3D> comparator) {
+		AISortUtility.aiSort(shapes, count, comparator);
+	}
+
 	public static void bubbleSort(Shape3D[] shapes, int count, Comparator<Shape3D> comparator) {
 		for(int i=0;i<count-1;i++) {
 			for(int j =0; j< count -i-1; j++) {

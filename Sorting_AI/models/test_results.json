@@ -1,0 +1,8 @@
+{
+  "test_loss": 0.004361102660186589,
+  "test_accuracy": 0.9998962854890519,
+  "test_exact_match": 0.99921875,
+  "best_epoch": 20,
+  "total_training_minutes": 19.041671029726665,
+  "model_parameters": 1415784
+}
