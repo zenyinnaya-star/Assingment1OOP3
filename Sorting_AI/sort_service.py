@@ -46,6 +46,68 @@ def sort_array(model, array):
     return result
 
 
+def ai_sort_block(model, values, descending=True):
+    n = len(values)
+    if n == 0:
+        return []
+    if n == 1:
+        return [0]
+    min_v = min(values)
+    max_v = max(values)
+    if max_v == min_v:
+        return list(range(n))
+    quantized = [int(round((v - min_v) / (max_v - min_v) * 100)) for v in values]
+    quantized = [max(0, min(100, q)) for q in quantized]
+    sorted_vals = sort_array(model, quantized)
+    original_quant = list(quantized)
+    used = [False] * len(original_quant)
+    indices = []
+    for sv in sorted_vals:
+        for i in range(len(original_quant)):
+            if not used[i] and original_quant[i] == sv:
+                used[i] = True
+                indices.append(i)
+                break
+    for i in range(len(used)):
+        if not used[i]:
+            indices.append(i)
+    if descending:
+        indices = indices[::-1]
+    return indices
+
+
+def merge_sorted_blocks(block_indices, values, descending=True):
+    if len(block_indices) == 0:
+        return []
+    if len(block_indices) == 1:
+        return block_indices[0]
+    merged = block_indices[0]
+    for b in range(1, len(block_indices)):
+        left = merged
+        right = block_indices[b]
+        result = []
+        i = j = 0
+        while i < len(left) and j < len(right):
+            if descending:
+                if values[left[i]] >= values[right[j]]:
+                    result.append(left[i])
+                    i += 1
+                else:
+                    result.append(right[j])
+                    j += 1
+            else:
+                if values[left[i]] <= values[right[j]]:
+                    result.append(left[i])
+                    i += 1
+                else:
+                    result.append(right[j])
+                    j += 1
+        result.extend(left[i:])
+        result.extend(right[j:])
+        merged = result
+    return merged
+
+
 def main():
     raw = sys.stdin.read()
     data = json.loads(raw)
@@ -59,42 +121,27 @@ def main():
         print(json.dumps({"indices": [0]}))
         return
 
-    min_v = min(values)
-    max_v = max(values)
-    if max_v == min_v:
-        indices = list(range(len(values)))
-        print(json.dumps({"indices": indices}))
-        return
-
-    quantized = [int(round((v - min_v) / (max_v - min_v) * 100)) for v in values]
-    quantized = [max(0, min(100, q)) for q in quantized]
-
-    if len(quantized) > MAX_SEQ_LEN:
-        print(json.dumps({"error": f"Too many elements ({len(quantized)}), max is {MAX_SEQ_LEN}"}))
-        return
-
     m = load_model()
     if m is None:
         print(json.dumps({"error": "Model not found"}))
         return
 
-    sorted_vals = sort_array(m, quantized)
-    original_quant = list(quantized)
-    used = [False] * len(original_quant)
-    indices = []
-    for sv in sorted_vals:
-        for i in range(len(original_quant)):
-            if not used[i] and original_quant[i] == sv:
-                used[i] = True
-                indices.append(i)
-                break
-    for i in range(len(used)):
-        if not used[i]:
-            indices.append(i)
+    n = len(values)
+    if n <= MAX_SEQ_LEN:
+        indices = ai_sort_block(m, values, descending)
+        print(json.dumps({"indices": indices}))
+        return
 
-    if descending:
-        indices = indices[::-1]
+    block_size = MAX_SEQ_LEN
+    block_indices = []
+    for start in range(0, n, block_size):
+        end = min(start + block_size, n)
+        block_values = values[start:end]
+        local_indices = ai_sort_block(m, block_values, descending)
+        global_indices = [start + li for li in local_indices]
+        block_indices.append(global_indices)
 
+    indices = merge_sorted_blocks(block_indices, values, descending)
     print(json.dumps({"indices": indices}))
 
 
