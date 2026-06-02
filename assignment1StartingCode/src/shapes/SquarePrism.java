@@ -7,7 +7,7 @@ public class SquarePrism extends Shape3D implements Comparator<Shape3D> {
     private double height;
 
     public SquarePrism(String name, double sideLength, double height) {
-        super();  // Fixed: pass name to parent class
+    	super(name);  // Fixed: pass name to parent class
         this.sideLength = sideLength;
         this.height = height;
     }

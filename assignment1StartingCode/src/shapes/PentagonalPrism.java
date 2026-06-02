@@ -6,7 +6,7 @@ public class PentagonalPrism extends Shape3D implements Comparator<Shape3D> {
     private double height;
 
     public PentagonalPrism(String name, double baseLength, double height) {
-        super();
+    	super(name);
         this.baseLength = baseLength;
         this.height = height;
     }

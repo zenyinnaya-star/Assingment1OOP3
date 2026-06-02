@@ -6,7 +6,7 @@ public class Cone extends Shape3D implements Comparator<Shape3D> {
     private double height;
 
     public Cone(String name, double radius, double height) {
-        super();  // Fixed: pass name to parent
+    	super(name);  // Fixed: pass name to parent
         this.radius = radius;
         this.height = height;
     }

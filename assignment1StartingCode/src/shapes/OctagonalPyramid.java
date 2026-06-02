@@ -7,15 +7,16 @@ public class OctagonalPyramid extends Shape3D implements Comparator<Shape3D> {
     private double height;
 
     public OctagonalPyramid(String name, String color, double sideLength, double height) {
-        super();
+    	super(name);
         this.sideLength = sideLength;
         this.height = height;
     }
 
     public OctagonalPyramid(String name, double baseSide, double height2) {
-		// TODO Auto-generated constructor stub
-	}
-
+        super(name);
+        this.sideLength = baseSide;
+        this.height = height2;
+    }
 	@Override
     public double getVolume() {
         double baseArea = 2 * (1 + Math.sqrt(2)) * Math.pow(sideLength, 2);
