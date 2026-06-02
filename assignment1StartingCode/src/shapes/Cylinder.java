@@ -7,7 +7,7 @@ public class Cylinder extends Shape3D implements Comparator<Shape3D> {
     private double height;
 
     public Cylinder(String name, double radius, double height) {
-        super();  // Fixed: pass name to parent class
+    	super(name);  // Fixed: pass name to parent class
         this.radius = radius;
         this.height = height;
     }

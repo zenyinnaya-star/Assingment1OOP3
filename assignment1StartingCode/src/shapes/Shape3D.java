@@ -3,9 +3,10 @@ package shapes;
 public abstract class Shape3D {
 	protected String name;
 	
-public void shape3D(String name) {
-	this.name=name;
+public Shape3D(String name) {
+    this.name = name;
 }
+
 public abstract double getVolume();
 
 

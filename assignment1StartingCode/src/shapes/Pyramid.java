@@ -7,7 +7,7 @@ public class Pyramid extends Shape3D implements Comparator<Shape3D> {
     private double height;
 
     public Pyramid(String name, double baseLength, double height) {
-        super();  
+    	super(name);  
         this.baseLength = baseLength;
         this.height = height;
     }

@@ -7,7 +7,7 @@ public class TriangularPyramid extends Shape3D implements Comparator<Shape3D> {
     private double height;
 
     public TriangularPyramid(String name, double baseArea, double height) {
-        super();  // Fixed: pass name to parent class
+    	super(name);  // Fixed: pass name to parent class
         this.baseArea = baseArea;
         this.height = height;
     }

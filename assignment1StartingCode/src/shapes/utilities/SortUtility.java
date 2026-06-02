@@ -5,11 +5,6 @@ import java.util.Comparator;
 
 
 
-
-
-
-
-
 public class SortUtility {
 	public static void aiSort(Shape3D[] shapes, int count, Comparator<Shape3D> comparator) {
 		AISortUtility.aiSort(shapes, count, comparator);
@@ -22,25 +17,17 @@ public class SortUtility {
 					Shape3D temp= shapes[j];
 					shapes[j] = shapes[j + 1];
                     shapes[j + 1] = temp;
-                    timer();
+			 }
 
-	
-	
-                    
-                    
-			
-				 }
-				
 			}
-	
+
 		}
 	}
-	
+
 
 	public static void quickSort(Shape3D[] shapes, int count, Comparator<Shape3D> comparator) {
         quickSortHelper(shapes, 0, count - 1, comparator);
-        
-		
+
 	}
 	private static void quickSortHelper(Shape3D[] shapes, int i, int j, Comparator<Shape3D> comparator) {
 		if (i < j) {
@@ -48,7 +35,7 @@ public class SortUtility {
 			quickSortHelper(shapes, i, pivotIndex - 1, comparator);
 			quickSortHelper(shapes, pivotIndex + 1, j, comparator);
 		}
-		
+
 	}
 		// TODO Auto-generated method stub
 	private static int partition(Shape3D[] shapes, int i, int j, Comparator<Shape3D> comparator) {
@@ -65,10 +52,9 @@ public class SortUtility {
 		Shape3D temp = shapes[index];
 		shapes[index] = shapes[j];
 		shapes[j] = temp;
-		timer();
 		return index;
-		
-		
+
+
 	}
 
 	public static void insertionSort(Shape3D[] shapes, int count, Comparator<Shape3D> comparator) {
@@ -80,10 +66,10 @@ public class SortUtility {
                 j--;
             }
             shapes[j+1] = key;
-            timer();}
-            
+            }
+
         }
-        
+
 	public static void selectionSort(Shape3D[] shapes, int count, Comparator<Shape3D> comparator) {
 		for (int i = 0; i < count - 1; i++) {
 			int maxIndex = i;
@@ -95,12 +81,11 @@ public class SortUtility {
 			Shape3D temp = shapes[maxIndex];
 			shapes[maxIndex] = shapes[i];
 			shapes[i] = temp;
-			timer();
-			
-			
+
+
 		}
-		
-        
+
+
            }
 
 			public static void mergeSort(Shape3D[] shapes, int count, Comparator<Shape3D> comparator) {
@@ -137,18 +122,6 @@ public class SortUtility {
 				while (j < rightCount) {
 					shapes[k++] = right[j++];
 				}
-				timer();
 			}
-	public static void timer() {
-	    long startTime = System.nanoTime();
-//to time it after each swap or comparison, call this method to calculate and print the execution time
-	    long endTime = System.nanoTime();
-	    long duration = endTime - startTime;
-	    System.out.println("Execution time: " + duration + " milliseconds");
-	}
-	
-	}
 
-		
-	
-	
+	}
