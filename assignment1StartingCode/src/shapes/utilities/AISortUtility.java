@@ -7,8 +7,22 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Comparator;
 
+/**
+ * This class:
+ * - Provides AI-assisted sorting for Shape3D arrays
+ * - Sends numeric values to an external Python script for sorting
+ * - Receives a sorted index order and rearranges the array accordingly
+ * - Falls back to Merge Sort if the AI script fails or returns invalid data
+ */
 public class AISortUtility {
 
+    /**
+     * This method:
+     * - Attempts to locate the Python AI sorting script
+     * - Checks several possible directory paths
+     *
+     * @return the absolute path to the Python script
+     */
     private static String resolveScriptPath() {
         String userDir = System.getProperty("user.dir");
         File script = new File(userDir, "../Sorting_AI/sort_service.py");
@@ -26,6 +40,13 @@ public class AISortUtility {
         return "../Sorting_AI/sort_service.py";
     }
 
+    /**
+     * This method:
+     * - Determines the working directory for running the Python script
+     * - Ensures the script is executed from the correct folder
+     *
+     * @return the directory containing the AI sorting script
+     */
     private static File resolveWorkingDir() {
         String userDir = System.getProperty("user.dir");
         File dir = new File(userDir, "../Sorting_AI");
@@ -37,6 +58,18 @@ public class AISortUtility {
         return new File(userDir);
     }
 
+    /**
+     * This method:
+     * - Performs AI-assisted sorting on the array
+     * - Extracts numeric values based on the comparator type
+     * - Sends values to the Python script in JSON format
+     * - Receives a sorted index order and rearranges the array
+     * - Falls back to Merge Sort if the AI script fails
+     *
+     * @param shapes     - array of Shape3D objects to sort
+     * @param count      - number of valid elements in the array
+     * @param comparator - determines which shape property is used for sorting
+     */
     public static void aiSort(Shape3D[] shapes, int count, Comparator<Shape3D> comparator) {
         if (count <= 1) return;
 
@@ -64,6 +97,17 @@ public class AISortUtility {
         System.arraycopy(temp, 0, shapes, 0, count);
     }
 
+    /**
+     * This method:
+     * - Extracts numeric values from each shape
+     * - Uses height, volume, or surface area depending on comparator type
+     *
+     * @param shapes     - array of shapes
+     * @param count      - number of valid elements
+     * @param comparator - determines which property to extract
+     *
+     * @return array of numeric values used for AI sorting
+     */
     private static double[] extractValues(Shape3D[] shapes, int count, Comparator<Shape3D> comparator) {
         double[] values = new double[count];
         for (int i = 0; i < count; i++) {
@@ -74,12 +118,21 @@ public class AISortUtility {
             } else if (comparator instanceof SurfaceAreaCompartor) {
                 values[i] = shapes[i].getSurfaceArea();
             } else {
-                values[i] = i;
+                values[i] = i; // fallback value
             }
         }
         return values;
     }
 
+    /**
+     * This method:
+     * - Builds a JSON string containing the extracted values
+     * - Specifies descending order for sorting
+     *
+     * @param values - numeric values extracted from shapes
+     *
+     * @return JSON string sent to the Python script
+     */
     private static String buildJson(double[] values) {
         StringBuilder sb = new StringBuilder("{\"values\":[");
         for (int i = 0; i < values.length; i++) {
@@ -90,6 +143,16 @@ public class AISortUtility {
         return sb.toString();
     }
 
+    /**
+     * This method:
+     * - Executes the external Python sorting script
+     * - Sends JSON input through the script's standard input
+     * - Reads the JSON output containing sorted indices
+     *
+     * @param jsonInput - JSON string containing values to sort
+     *
+     * @return JSON output from the Python script, or null on failure
+     */
     private static String callPythonScript(String jsonInput) {
         try {
             String scriptPath = resolveScriptPath();
@@ -125,6 +188,15 @@ public class AISortUtility {
         }
     }
 
+    /**
+     * This method:
+     * - Extracts the "indices" array from the JSON output
+     * - Converts the values into an integer array
+     *
+     * @param json - JSON string returned by the Python script
+     *
+     * @return array of sorted indices, or null if parsing fails
+     */
     private static int[] parseIndices(String json) {
         try {
             String key = "\"indices\"";

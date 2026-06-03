@@ -3,8 +3,26 @@ package appDomain;
 import shapes.*;
 import shapes.utilities.*;
 
+/**
+ * This class:
+ * - Demonstrates how the AI sorting system works
+ * - Creates a small sample array of Shape3D objects
+ * - Prints the array before and after AI sorting
+ * - Sorts the shapes by height in descending order using AI Sort
+ */
 public class TestAISort {
+
+    /**
+     * This method:
+     * - Builds a small array of shapes with different heights
+     * - Prints each shape's height before sorting
+     * - Calls the AI sorting algorithm (descending height)
+     * - Prints each shape's height after sorting
+     *
+     * @param args - command-line arguments
+     */
     public static void main(String[] args) {
+
         Shape3D[] shapes = new Shape3D[5];
         shapes[0] = new Cone("Cone", 1.0, 10.0);
         shapes[1] = new Cone("Cone", 1.0, 5.0);
