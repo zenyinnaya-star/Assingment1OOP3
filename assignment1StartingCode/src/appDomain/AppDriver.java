@@ -12,8 +12,29 @@ import managers.ShapeRepository;
 import managers.ShapeResults;
 import managers.SortController;
 
+/**
+ * This class:
+ * - Acts as the main entry point for the sorting application
+ * - Reads command-line arguments for file name, comparison type, and sort type
+ * - Loads shapes from a file into a repository
+ * - Selects the correct comparator and sorting algorithm
+ * - Measures sorting time and prints summary results
+ */
 public class AppDriver {
 
+    /**
+     * This method:
+     * - Parses command-line arguments
+     * - Loads shape data from a file
+     * - Chooses the correct comparator based on user input
+     * - Selects and executes the sorting algorithm
+     * - Prints the first, last, and periodic elements of the sorted list
+     *
+     * @param args - command-line arguments:
+     *             → -f<filename> : path to the shape file
+     *             → -t<h|v|a>    : comparison type (height, volume, base area)
+     *             → -s<b|s|i|m|q|z> : sorting algorithm
+     */
     public static void main(String[] args) {
 
         // -------------------------------
@@ -120,6 +141,11 @@ public class AppDriver {
                 compareType, compareLabel, sortName, elapsedMs);
     }
 
+    /**
+     * This method:
+     * - Prints instructions for correct command-line usage
+     * - Helps the user understand required flags and valid values
+     */
     private static void printUsage() {
         System.out.println("Usage: java -jar Sort.jar -f<file> -t<h|v|a> -s<b|s|i|m|q|z>");
         System.out.println("  -f  File name/path (e.g. -fres\\shapes1.txt)");
