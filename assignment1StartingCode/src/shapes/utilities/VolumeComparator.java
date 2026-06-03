@@ -1,13 +1,29 @@
 package shapes.utilities;
 
 import java.util.Comparator;
-
 import shapes.Shape3D;
 
+/**
+ * This class:
+ * - Compares two Shape3D objects based on their volume
+ * - Sorts in descending order (larger volume comes first)
+ */
 public class VolumeComparator implements Comparator<Shape3D> {
+
+    /**
+     * This method:
+     * - Compares the volume of two shapes
+     * - Returns a positive value if shape2 has a larger volume than shape1
+     * - Returns a negative value if shape1 has a larger volume than shape2
+     * - Returns zero if both shapes have equal volume
+     *
+     * @param shape1 - the first shape being compared
+     * @param shape2 - the second shape being compared
+     *
+     * @return comparison result based on descending volume
+     */
     @Override
     public int compare(Shape3D shape1, Shape3D shape2) {
-        
         return Double.compare(shape2.getVolume(), shape1.getVolume());
     }
 }
