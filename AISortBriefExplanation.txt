@@ -1,0 +1,11 @@
+The code scans through directories looking for a Python script. 
+
+It extracts numeric values from the shape classes and sends them to that Python script in JSON format. 
+
+The Python script then sorts those values and returns the index of the sorted order back to Java. 
+
+Then the code rearranges the shapes array based on those index values. 
+
+If anything goes wrong the script fails, returns an error and sends back invalid data. It also will fall back to using merge sort instead. 
+
+All the JSON is built and parsed manually without using an external library
